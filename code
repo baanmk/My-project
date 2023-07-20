@@ -1,0 +1,14 @@
+#include <stdio.h>
+#include <string.h>
+
+#define MAX_TUTORS 100
+#define MAX_NAME_LENGTH 50
+#define MAX_SUBJECT_LENGTH 30
+
+struct Tutor {
+    char name[MAX_NAME_LENGTH];
+    char subject[MAX_SUBJECT_LENGTH];
+    float hourly_rate;
+    int available;
+    char studentName[MAX_NAME_LENGTH];
+};

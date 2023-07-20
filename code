@@ -68,3 +68,24 @@ void bookTutor(struct Tutor tutors[], int numTutors, const char *studentName) {
         printf("\nНа жаль, немає доступних викладачів для предмету '%s'. Спробуйте інший предмет.\n", subject);
     }
 }
+
+void viewStudentSchedule(struct Tutor tutors[], int numTutors, const char *studentName) {
+    printf("\nВаш розклад занять, %s:\n", studentName);
+    printf("-------------------------------------------------------\n");
+    printf("%-20s%-20s%-15s\n", "Ім'я викладача", "Предмет", "Ціна за заняття");
+    printf("-------------------------------------------------------\n");
+
+    int hasSchedule = 0;
+    for (int i = 0; i < numTutors; i++) {
+        if (!tutors[i].available && strcmp(tutors[i].studentName, studentName) == 0) {
+            printf("%-20s%-20s%-15.2f\n", tutors[i].name, tutors[i].subject, tutors[i].hourly_rate);
+            hasSchedule = 1;
+        }
+    }
+
+    if (!hasSchedule) {
+        printf("Ви не записані на жодне заняття.\n");
+    }
+
+    printf("-------------------------------------------------------\n");
+}

@@ -12,3 +12,17 @@ struct Tutor {
     int available;
     char studentName[MAX_NAME_LENGTH];
 };
+
+void readTutorsData(struct Tutor tutors[], int *numTutors) {
+    FILE *file = fopen("teachers_database.txt", "r");
+    if (file == NULL) {
+        printf("Помилка відкриття файлу.\n");
+        return;
+    }
+
+    while (*numTutors < MAX_TUTORS && fscanf(file, "%[^,],%[^,],%f,%d,%[^\n]\n", tutors[*numTutors].name, tutors[*numTutors].subject, &tutors[*numTutors].hourly_rate, &tutors[*numTutors].available, tutors[*numTutors].studentName) == 5) {
+        (*numTutors)++;
+    }
+
+    fclose(file);
+}

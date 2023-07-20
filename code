@@ -47,3 +47,24 @@ void displayAvailableTutors(struct Tutor tutors[], int numTutors, const char *su
 
     printf("-------------------------------------------------------\n");
 }
+
+void bookTutor(struct Tutor tutors[], int numTutors, const char *studentName) {
+    char subject[MAX_SUBJECT_LENGTH];
+    printf("\n%s, введіть предмет, для якого ви хочете записатися на заняття: ", studentName);
+    scanf("%s", subject);
+
+    int found = 0;
+    for (int i = 0; i < numTutors; i++) {
+        if (tutors[i].available && strcmp(tutors[i].subject, subject) == 0) {
+            printf("\nВи успішно записалися на заняття з предмету '%s' із викладачем %s за ціною %.2f грн.\n", subject, tutors[i].name, tutors[i].hourly_rate);
+            tutors[i].available = 0;
+            strcpy(tutors[i].studentName, studentName);
+            found = 1;
+            break;
+        }
+    }
+
+    if (!found) {
+        printf("\nНа жаль, немає доступних викладачів для предмету '%s'. Спробуйте інший предмет.\n", subject);
+    }
+}

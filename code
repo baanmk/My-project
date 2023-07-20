@@ -39,6 +39,64 @@ void displayAvailableTutors(struct Tutor tutors[], int numTutors, const char *su
             printf("%-20s%-20s%-15.2f%-15s\n", tutors[i].name, tutors[i].subject, tutors[i].hourly_rate, "Доступний");
             availableTutors++;
         }
+
+int main() {
+    struct Tutor tutors[MAX_TUTORS];
+    int numTutors = 0;
+    int choice;
+    char studentName[MAX_NAME_LENGTH];
+
+    readTutorsData(tutors, &numTutors);
+
+    printf("Вітаємо у Сервісі пошуку репетиторів!\n");
+
+    printf("Будь ласка, введіть ваше ім'я: ");
+    scanf("%s", studentName);
+
+    while (1) {
+        printf("\nОберіть опцію:\n");
+        printf("1. Показати доступних викладачів за певним предметом\n");
+        printf("2. Записатися на заняття\n");
+        printf("3. Переглянути ваш розклад занять\n");
+        printf("4. Вийти з програми\n");
+
+        scanf("%d", &choice);
+
+        switch (choice) {
+            case 1:
+                char subject[MAX_SUBJECT_LENGTH];
+                printf("\nВведіть предмет, за яким ви хочете знайти викладачів: ");
+                scanf("%s", subject);
+                displayAvailableTutors(tutors, numTutors, subject);
+                break;
+            case 2:
+                bookTutor(tutors, numTutors, studentName);
+                break;
+            case 3:
+                viewStudentSchedule(tutors, numTutors, studentName);
+                break;
+            case 4:
+                FILE *file = fopen("teachers_database.txt", "r");
+                if (file == NULL) {
+                    printf("Помилка відкриття файлу.\n");
+                    return 1;
+                }
+
+                for (int i = 0; i < numTutors; i++) {
+                    fprintf(file, "%s,%s,%.2f,%d,%s\n", tutors[i].name, tutors[i].subject, tutors[i].hourly_rate, tutors[i].available, tutors[i].studentName);
+                }
+
+                fclose(file);
+
+                printf("Дякуємо за користування Сервісом пошуку репетиторів, %s! До зустрічі!\n", studentName);
+                return 0;
+            default:
+                printf("Некоректний вибір. Спробуйте ще раз.\n");
+        }
+    }
+
+    return 0;
+}
     }
 
     if (availableTutors == 0) {
